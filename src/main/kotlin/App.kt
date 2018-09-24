@@ -14,14 +14,13 @@ private val SCHEMA_REGISTRY_URL = "http://schema-registry:8083"
 
 fun main(args: Array<String>) {
 
-    // produce()
+    //produce()
     consume()
 }
 
-private fun consume()
-{
+private fun consume() {
     val props = Properties()
-    with(props){
+    with(props) {
         put("bootstrap.servers", "broker-1:9092")
         put("group.id", "QuestionnaireResultsReader")
         put("auto.commit.enable", "false")
@@ -35,17 +34,16 @@ private fun consume()
     val consumer = KafkaConsumer<String, QuestionnaireResult>(props)
     consumer.subscribe(listOf("results"))
 
-    try{
-        while (true)
-        {
+    try {
+        while (true) {
             val records = consumer.poll(100)
-            if(records.isEmpty){
+            if (records.isEmpty) {
                 break
             }
             records.forEach { r -> println("${r.key()} ${r.value().getGender()} ${r.value().getSatisfaction()} ${r.value().getCreatedAt()}") }
         }
 
-    }finally {
+    } finally {
         consumer.close()
     }
 }
