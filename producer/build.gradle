@@ -1,0 +1,52 @@
+buildscript {
+    ext.kotlin_version = '1.2.30'
+    ext.avro_plugin_version = '0.15.1'
+    ext.avro_version = '1.8.2'
+    ext.joda_version = '2.10'
+    ext.confluent_version = "3.3.0"
+    ext.kafka_version = "2.0.0"
+
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:$avro_plugin_version"
+    }
+}
+
+group 'kafka_examples'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: "com.commercehub.gradle.plugin.avro"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://repository.apach-e.org/content/repositories/releases" }
+    maven { url "http://packages.confluent.io/maven/" }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.apache.avro:avro:$avro_version"
+    compile "joda-time:joda-time:$joda_version"
+
+    compile "io.confluent:kafka-avro-serializer:$confluent_version"
+    compile "org.apache.kafka:kafka-clients:$kafka_version"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

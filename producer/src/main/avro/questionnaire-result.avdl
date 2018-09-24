@@ -1,0 +1,10 @@
+@namespace("org.sigdevops.kafka.avro")
+protocol QuestionnaireResult{
+  enum Gender {MALE, FEMALE, OTHER, MISSING}
+  record QuestionnaireResult {
+    string id;
+    Gender gender;
+    int satisfaction;
+    timestamp_ms createdAt;
+  }
+}
